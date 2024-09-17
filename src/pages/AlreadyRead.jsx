@@ -28,15 +28,12 @@ const AlreadyRead = () => {
             </div>
           ) : (
             alreadyRead.map((readBook) => {
-              const imgSrc = readBook.cover_i
-                ? `https://covers.openlibrary.org/b/id/${readBook.cover_i}-M.jpg`
-                : defaultImage;
               const addedDate = new Date().toLocaleDateString('sk-SK');
 
               return (
                 <div key={readBook.key} className="flex items-center mb-4">
                   <img
-                    src={imgSrc}
+                    src={readBook.bookCover}
                     alt={readBook.title}
                     className="h-full w-[3rem] object-cover rounded-l"
                   />

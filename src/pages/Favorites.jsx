@@ -28,15 +28,12 @@ const Favorites = () => {
             </div>
           ) : (
             favorites.map((favoriteBook) => {
-              const imgSrc = favoriteBook.cover_i
-                ? `https://covers.openlibrary.org/b/id/${favoriteBook.cover_i}-M.jpg`
-                : defaultImage;
               const currentDate = new Date().toLocaleDateString('sk-SK');
 
               return (
                 <div key={favoriteBook.key} className="flex items-center mb-4">
                   <img
-                    src={imgSrc}
+                    src={favoriteBook.bookCover}
                     alt={favoriteBook.title}
                     className="h-full w-[3rem] object-cover rounded-l"
                   />

@@ -4,59 +4,79 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   // Local Storage
-  const getLocalStorageFavorite = () => {
-    let favorites = localStorage.getItem('favorites');
-    if (favorites) {
-      favorites = JSON.parse(localStorage.getItem('favorites'));
+  const getLocalStorageBookmark = (bookmarkCategory) => {
+    const categoryData = localStorage.getItem(bookmarkCategory);
+    if (categoryData) {
+      return JSON.parse(categoryData);
     } else {
-      favorites = [];
+      return [];
     }
-    return favorites;
   };
 
-  const setLocalStorageFavorite = (favorites) => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+  const setLocalStorageBookmark = (bookmarkCategory, books) => {
+    localStorage.setItem(bookmarkCategory, JSON.stringify(books));
   };
-
-  const defaultBookList = JSON.parse(localStorage.getItem('favorites') || '[]');
 
   // State
-  const [favorites, setFavorites] = useState(defaultBookList);
-  const [wantToRead, setWantToRead] = useState([]);
-  const [alreadyRead, setAlreadyRead] = useState([]);
+  const [favorites, setFavorites] = useState(
+    getLocalStorageBookmark('favorites')
+  );
+  const [wantToRead, setWantToRead] = useState(
+    getLocalStorageBookmark('wantToRead')
+  );
+  const [alreadyRead, setAlreadyRead] = useState(
+    getLocalStorageBookmark('alreadyRead')
+  );
 
   // Functions
   const addToFavorites = (book) => {
-    console.log(book);
     setFavorites((prevFavorites) => [...prevFavorites, book]);
-    setLocalStorageFavorite([...favorites, book]);
+
+    setLocalStorageBookmark('favorites', [...favorites, book]);
   };
 
   const removeFromFavorites = (book) => {
     setFavorites((prevFavorites) =>
       prevFavorites.filter((fav) => fav.key !== book.key)
     );
-    setLocalStorageFavorite(favorites.filter((fav) => fav.key !== book.key));
+    setLocalStorageBookmark(
+      'favorites',
+      favorites.filter((fav) => fav.key !== book.key)
+    );
   };
 
   const addToWantToRead = (book) => {
     setWantToRead((prevWantToRead) => [...prevWantToRead, book]);
+    setLocalStorageBookmark('wantToRead', [...wantToRead, book]);
   };
 
   const removeFromWantToRead = (book) => {
     setWantToRead((prevWantToRead) =>
       prevWantToRead.filter((fav) => fav.key !== book.key)
     );
+    setLocalStorageBookmark(
+      'wantToRead',
+      wantToRead.filter((fav) => fav.key !== book.key)
+    );
   };
 
   const addToAlreadyRead = (book) => {
     setAlreadyRead((prevAlreadyRead) => [...prevAlreadyRead, book]);
+    setLocalStorageBookmark('alreadyRead', [...alreadyRead, book]);
   };
 
   const removeFromAlreadyRead = (book) => {
     setAlreadyRead((prevAlreadyRead) =>
       prevAlreadyRead.filter((read) => read.key !== book.key)
     );
+    setLocalStorageBookmark(
+      'alreadyRead',
+      alreadyRead.filter((fav) => fav.key !== book.key)
+    );
+  };
+
+  const addComment = (book) => {
+    console.log('Add comment');
   };
 
   return (

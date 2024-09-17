@@ -4,11 +4,12 @@ import { DropdownMenu } from '../components/DropdownMenu';
 import SearchForm from '../components/SearchForm';
 import BookList from '../components/BookList';
 
-const booksQuery = (search) => ({
-  queryKey: ['books', search],
+const booksQuery = (type, search) => ({
+  queryKey: ['books', type, search],
   queryFn: async () => {
+    const urlFilter = search ? `${type}=${search}` : 'title=a';
     const response = await axios.get(
-      `https://openlibrary.org/search.json?q=${search}&limit=12&offset=0`
+      `https://openlibrary.org/search.json?${urlFilter}&limit=12&offset=0&fields=key,title,author_name,editions,publish_year,first_publish_year,cover_i,subject,ratings_average`
     );
     return response.data;
   },
@@ -19,7 +20,10 @@ export const bookLoader =
   async ({ request }) => {
     const params = new URL(request.url).searchParams;
     const search = params.get('search');
-    const response = await queryClient.ensureQueryData(booksQuery(search));
+    const type = params.get('type');
+    const response = await queryClient.ensureQueryData(
+      booksQuery(type, search)
+    );
 
     return response.docs;
   };

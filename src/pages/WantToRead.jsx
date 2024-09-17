@@ -28,9 +28,6 @@ const WantToRead = () => {
             </div>
           ) : (
             wantToRead.map((wantToReadBook) => {
-              const imgSrc = wantToReadBook.cover_i
-                ? `https://covers.openlibrary.org/b/id/${wantToReadBook.cover_i}-M.jpg`
-                : defaultImage;
               const addedDate = new Date().toLocaleDateString('sk-SK'); // Assuming the current date for demonstration
 
               return (
@@ -39,7 +36,7 @@ const WantToRead = () => {
                   className="flex items-center mb-4"
                 >
                   <img
-                    src={imgSrc}
+                    src={wantToReadBook.bookCover}
                     alt={wantToReadBook.title}
                     className="h-full w-[3rem] object-cover rounded-l"
                   />

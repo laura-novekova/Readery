@@ -28,6 +28,19 @@ function BookDetails({ book }) {
       ? `https://covers.openlibrary.org/b/id/${data.covers[0]}-M.jpg`
       : defaultImage;
 
+  const authorKey =
+    data &&
+    data.authors &&
+    data.authors[0] &&
+    data.authors[0].author &&
+    data.authors[0].author.key;
+
+  const bookmarksBook = {
+    key: data.key,
+    title: data.title,
+    authorKey: authorKey,
+    bookCover: imgSrc,
+  };
   return (
     <div className="flex flex-row bg-zinc-100 rounded-md gap-4">
       <div className="flex flex-col gap-3 p-2">
@@ -36,12 +49,12 @@ function BookDetails({ book }) {
           alt="book-1"
           className="w-[34rem] h-full rounded-md object-cover"
         />
-        <Bookmarks book={book} key={book.key} />
+        <Bookmarks book={bookmarksBook} key={book.key} />
       </div>
       <div>
         <div className="">
           <h2 className="font-bold text-2xl text-sky-950 pt-2">{data.title}</h2>
-          <Author authorId={data.authors[0].author.key} />
+          {authorKey && <Author authorId={authorKey} />}
           <div className="flex mb-3 my-3">
             <div className="flex-1 mr-4">
               <OtherInfo bookId={data.key} />

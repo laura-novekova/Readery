@@ -9,6 +9,7 @@ import {
 } from 'react-icons/bs';
 import { useGlobalContext } from './Context';
 import { useState } from 'react';
+import defaultImage from '../assets/defaultImage.jpg';
 
 function BookTile({ book }) {
   const { addToFavorites, removeFromFavorites, favorites } = useGlobalContext();
@@ -17,43 +18,48 @@ function BookTile({ book }) {
   const { addToAlreadyRead, removeFromAlreadyRead, alreadyRead } =
     useGlobalContext();
 
-  const [isFavorite, setIsFavorite] = useState(
-    favorites.some((fav) => fav.key === book.key)
-  );
+  const isFavorite = favorites.some((fav) => fav.key === book.key);
 
-  const [isWantToRead, setIsWantToRead] = useState(
-    wantToRead.some((want) => want.key === book.key)
-  );
+  const isWantToRead = wantToRead.some((want) => want.key === book.key);
 
-  const [isAlreadyRead, setIsAlreadyRead] = useState(
-    alreadyRead.some((read) => read.key === book.key)
-  );
+  const isAlreadyRead = alreadyRead.some((read) => read.key === book.key);
+
+  const imgSrc =
+    book && book.cover_i
+      ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+      : defaultImage;
+
+  const authorKey = book && book.author_key && book.author_key[0];
+
+  const bookmarksBook = {
+    key: book.key,
+    title: book.title,
+    authorKey: authorKey,
+    bookCover: imgSrc,
+  };
 
   const handleAddToFavorites = () => {
     if (isFavorite) {
-      removeFromFavorites(book);
+      removeFromFavorites(bookmarksBook);
     } else {
-      addToFavorites(book);
+      addToFavorites(bookmarksBook);
     }
-    setIsFavorite((prevState) => !prevState);
   };
 
   const handleAddToWantToRead = () => {
     if (isWantToRead) {
-      removeFromWantToRead(book);
+      removeFromWantToRead(bookmarksBook);
     } else {
-      addToWantToRead(book);
+      addToWantToRead(bookmarksBook);
     }
-    setIsWantToRead((prevState) => !prevState);
   };
 
   const handleAddToAlreadyRead = () => {
     if (isAlreadyRead) {
-      removeFromAlreadyRead(book);
+      removeFromAlreadyRead(bookmarksBook);
     } else {
-      addToAlreadyRead(book);
+      addToAlreadyRead(bookmarksBook);
     }
-    setIsAlreadyRead((prevState) => !prevState);
   };
   return (
     <article

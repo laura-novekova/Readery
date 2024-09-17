@@ -28,9 +28,6 @@ const WantToRead = () => {
             </div>
           ) : (
             wantToRead.map((wantToReadBook) => {
-              const imgSrc = wantToReadBook.cover_i
-                ? `https://covers.openlibrary.org/b/id/${wantToReadBook.cover_i}-M.jpg`
-                : defaultImage;
               const addedDate = new Date().toLocaleDateString('sk-SK');
 
               return (

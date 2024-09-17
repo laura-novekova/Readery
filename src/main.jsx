@@ -12,7 +12,13 @@ import Favorites from './pages/Favorites';
 import WantToRead from './pages/WantToRead';
 import AlreadyRead from './pages/AlreadyRead';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
